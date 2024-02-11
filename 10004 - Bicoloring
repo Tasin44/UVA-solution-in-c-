@@ -84,13 +84,10 @@ ll combination(ll n,ll r) {///nCr
 ///*================ actual code starts here ============*/
 ll i,j,a,b,c,d,p,q,r,k,n,m,t,x,y,z,mn,l,ans;
 
-const int mx=300;
-vector<ll>adj[mx];
-ll color[mx];
 
-bool isBipartite(ll s)
+bool isBipartite(ll s,vector<vector<ll>>&adj , vector<ll>&color)
 {
-   memset(color,-1,sizeof(color));
+
    color[s]=1;
    queue<ll>q;
    q.push(s);
@@ -100,7 +97,7 @@ bool isBipartite(ll s)
      q.pop() ;
          for(auto v:adj[u])
          {
-            if(color[v]==-1)///if adjacent the is non coloured
+             if(color[v]==-1)///if adjacent the is non coloured
              {
                  if(color[u]==1)/// if source node 1 coloured,then
                  color[v]=2;    ///it's adjacent will be coloured 2
@@ -126,8 +123,8 @@ int main()
    while(cin>>n)
    {
       if(n==0)break;///n==node
-      for(i=0;i<n;i++)
-      adj[i].clear();
+      vector<vector<ll>>adj(n+1);
+      vector<ll>color(n+1,-1);
       cin>>l;///l=length of the graph(edges)
       for(i=1;i<=l;i++)
       {
@@ -136,9 +133,11 @@ int main()
          adj[u].pb(v);
          adj[v].pb(u);
       }
-      if(isBipartite(0)==1)cout << "BICOLORABLE.\n";///checking always starts from source node
+      ll source=0;
+      if(isBipartite(source,adj,color)==1)cout << "BICOLORABLE.\n";///checking always starts from source node
       ///source node(starting node) of this graph is 0
       else cout << "NOT BICOLORABLE.\n";
    }
 return 0;
 }
+
